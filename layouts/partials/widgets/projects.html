@@ -4,7 +4,7 @@
 <!-- Projects widget -->
 <div class="row">
   <div class="col-xs-12 col-md-4 section-heading">
-    <h1>{{ with $page.Title }}{{ . | markdownify }}{{ end }}</h1>
+    <h1>{{ with $page.Params.title }}{{ . | markdownify }}{{ end }}</h1>
     {{ with $page.Params.subtitle }}<p>{{ . | markdownify }}</p>{{ end }}
   </div>
   <div class="col-xs-12 col-md-8">
@@ -57,6 +57,7 @@
     <div class="row isotope projects-container js-layout-masonry">
 
       {{ range $project := where $.Site.RegularPages "Type" ($page.Params.folder | default "project") }}
+      {{if or (and (eq true $project.Params.header.research_project) $page.Params.research_project) (and (eq true $project.Params.header.work_project) $page.Params.work_project) }}
       {{ $.Scratch.Set "project_url" $project.Permalink }}
       {{ $.Scratch.Set "target" "" }}
       {{ if $project.Params.external_link }}
@@ -79,6 +80,7 @@
           </div>
         </div>
       </div>
+      {{ end }}
       {{ end }}
 
     </div>
